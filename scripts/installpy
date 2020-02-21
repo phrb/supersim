@@ -72,11 +72,11 @@ def delete(loc, url, commit):
 
 
 def main(args):
-  repos = [('gridstats', 'github.com', 'nicmcd/gridstats', None),
-           ('percentile', 'github.com', 'nicmcd/percentile', None),
-           ('ssplot', 'github.com', 'nicmcd/ssplot', None),
-           ('taskrun', 'github.com', 'nicmcd/taskrun', None),
-           ('sssweep', 'github.com', 'nicmcd/sssweep', None)]
+  repos = [('gridstats', 'github.com', 'nicmcd/gridstats', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('percentile', 'github.com', 'nicmcd/percentile', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('ssplot', 'github.com', 'ssnetsim/ssplot', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('taskrun', 'github.com', 'nicmcd/taskrun', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('sssweep', 'github.com', 'ssnetsim/sssweep', '`git rev-list -n 1 --before="2019-01-01 " master`')]
 
   for command in args.command:
     for repo in repos:

@@ -52,27 +52,32 @@ def delete(loc, url, commit):
 
 
 def main(args):
-  repos = [('libprim', 'github.com', 'nicmcd/libprim', None),
-           ('libex', 'github.com', 'nicmcd/libex', None),
-           ('librnd', 'github.com', 'nicmcd/librnd', None),
-           ('libmut', 'github.com', 'nicmcd/libmut', None),
-           ('libbits', 'github.com', 'nicmcd/libbits', None),
-           ('libstrop', 'github.com', 'nicmcd/libstrop', None),
-           ('libjson', 'github.com', 'nicmcd/libjson', None),
-           ('libsettings', 'github.com', 'nicmcd/libsettings', None),
-           ('libgrid', 'github.com', 'nicmcd/libgrid', None),
-           ('libcolhash', 'github.com', 'nicmcd/libcolhash', None),
-           ('libfio', 'github.com', 'nicmcd/libfio', None),
-           ('libfactory', 'github.com', 'nicmcd/libfactory', None),
-           ('settingstest', 'github.com', 'nicmcd/settingstest', None),
-           ('supersim', 'github.com', 'hewlettpackard/supersim', None),
-           ('ssparse', 'github.com', 'nicmcd/ssparse', None),
-           ('hyperxsearch', 'github.com', 'nicmcd/hyperxsearch', None)]
+  repos = [('libprim', 'github.com', 'nicmcd/libprim', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libex', 'github.com', 'nicmcd/libex', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('librnd', 'github.com', 'nicmcd/librnd', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libfio', 'github.com', 'nicmcd/libfio', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libmut', 'github.com', 'nicmcd/libmut', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libbits', 'github.com', 'nicmcd/libbits', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libstrop', 'github.com', 'nicmcd/libstrop', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libjson', 'github.com', 'nicmcd/libjson', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libsettings', 'github.com', 'nicmcd/libsettings', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libgrid', 'github.com', 'nicmcd/libgrid', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libcolhash', 'github.com', 'nicmcd/libcolhash', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('libfactory', 'github.com', 'nicmcd/libfactory', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('settingstest', 'github.com', 'nicmcd/settingstest', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           # ('supersim', 'github.com', 'HewlettPackard/supersim', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           # ('supersim', 'github.hpe.com', 'FabricWizardry/supersim', '`git rev-list -n 1 master`'),
+           ('ssparse', 'github.com', 'ssnetsim/ssparse', '`git rev-list -n 1 --before="2019-01-01 " master`'),
+           ('hyperxsearch', 'github.com', 'nicmcd/hyperxsearch', '`git rev-list -n 1 --before="2019-01-01 " master`')]
 
   for command in args.command:
     for repo in repos:
       # parse the tuple
       loc = repo[0]
+
+      #using git for supersim and https for everything else
+      args.mode = 'git' if loc == 'supersim' else 'https'
+
       if args.mode == 'git':
         url = 'git@' + repo[1] + ':' + repo[2]
       elif args.mode == 'https':
@@ -113,7 +118,7 @@ if __name__ == '__main__':
                   choices=['list', 'clone', 'build', 'check', 'clean',
                            'delete'],
                   help='command to be run')
-  ap.add_argument('-m', '--mode', choices=['git', 'https'], default='https',
+  ap.add_argument('-m', '--mode', nargs='?', choices=['git', 'https'], default='https',
                   help='use https urls (default) or git urls')
   ap.add_argument('--opt', help='Options for make command', default='')
   args = ap.parse_args()
